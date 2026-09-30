@@ -237,3 +237,177 @@ Le fonctionnement obtenu est le suivant :
 Le réseau "192.168.162.0/24" est ainsi utilisé exclusivement pour les besoins de management du routeur, tandis que le réseau destiné aux clients du HotSpot reste indépendant.
 
 Cette séparation constitue la base du reste de la configuration du lab : le management, le HotSpot et le WAN sont traités comme des réseaux distincts.
+
+
+## 3. Configuration du réseau WAN
+
+## 3.1 Objectif
+
+L'interface "ether1" du MikroTik est utilisée comme interface WAN.
+
+Elle assure la connexion du routeur vers le réseau extérieur à travers le réseau NAT de VMware.
+
+Cette interface est distincte du réseau de management configuré sur "ether2" et du réseau destiné aux clients du HotSpot.
+
+L'architecture retenue est donc :
+
+                    PC hôte
+                       │
+                VMware Workstation
+                       │
+                Réseau NAT VMware
+                       │
+                       │ WAN
+                       ▼
+                  ether1
+                MikroTik
+
+Le rôle d'"ether1" est principalement de permettre au MikroTik d'obtenir une connectivité vers l'extérieur et, par la suite, de fournir cette connectivité au réseau interne.
+
+---
+
+## 3.2 Raccordement de l'interface WAN
+
+Dans VMware Workstation, la carte réseau virtuelle correspondant à "ether1" est connectée à un réseau NAT.
+
+Le mode NAT permet à la machine virtuelle MikroTik d'accéder au réseau externe en utilisant la connectivité du PC hôte.
+
+Le MikroTik ne reçoit donc pas ici une adresse IP statique définie manuellement. Il récupère ses paramètres réseau auprès du serveur DHCP fourni par le réseau NAT de VMware.
+
+---
+
+## 3.3 Configuration du client DHCP sur "ether1"
+
+Le client DHCP de MikroTik est activé sur l'interface "ether1" avec la commande :
+
+/ip dhcp-client add interface=ether1 disabled=no
+
+Le MikroTik peut ainsi recevoir automatiquement :
+
+- une adresse IP WAN ;
+- un masque réseau ;
+- une passerelle par défaut ;
+- éventuellement les informations DNS fournies par le réseau DHCP.
+
+L'adresse obtenue dépend du réseau NAT configuré dans VMware et peut donc varier.
+
+---
+
+## 3.4 Vérification de l'adresse WAN
+
+La configuration du client DHCP peut être vérifiée avec :
+
+/ip dhcp-client print detail
+
+L'interface "ether1" doit apparaître avec un état indiquant que le bail DHCP a été obtenu.
+
+L'adresse attribuée à l'interface peut également être vérifiée avec :
+
+/ip address print
+
+L'adresse affichée sur "ether1" correspond alors à l'adresse fournie dynamiquement par le réseau NAT de VMware.
+
+Capture d'écran à intégrer :
+
+![Adresse IP WAN du MikroTik](../screenshots/configuration/wan-ip.png)
+
+ — Adresse IP obtenue dynamiquement sur l'interface WAN "ether1".
+
+---
+
+## 3.5 Vérification de la route par défaut
+
+L'utilisation du DHCP sur "ether1" permet également au MikroTik d'apprendre la passerelle du réseau WAN.
+
+La table de routage peut être vérifiée avec :
+
+/ip route print
+
+Une route par défaut doit être présente sous la forme :
+
+0.0.0.0/0
+
+Cette route indique au MikroTik quelle passerelle utiliser lorsqu'une destination ne se trouve pas dans l'un de ses réseaux directement connectés.
+
+Capture d'écran à intégrer :
+
+![Route par défaut du MikroTik](../screenshots/configuration/wan-route.png)
+
+— Vérification de la route par défaut vers le réseau WAN.
+
+---
+
+## 3.6 Test de connectivité vers l'extérieur
+
+Une fois l'adresse WAN et la route par défaut obtenues, la connectivité vers l'extérieur peut être vérifiée directement depuis le MikroTik.
+
+Un test peut être réalisé avec :
+
+/ping 8.8.8.8
+
+Une réponse indique que le MikroTik est capable de joindre une adresse IP située à l'extérieur de son réseau local.
+
+Le test par adresse IP est utilisé ici afin de vérifier la connectivité réseau indépendamment de la résolution DNS.
+
+Capture d'écran à intégrer :
+
+![Test de connectivité WAN](../screenshots/configuration/wan-ping.png)
+
+— Test de connectivité du MikroTik vers l'extérieur.
+
+---
+
+## 3.7 Vérification de la résolution DNS
+
+Après avoir vérifié la connectivité IP, la résolution DNS peut être testée depuis le MikroTik.
+
+Par exemple :
+
+/ping google.com
+
+Si le nom de domaine est résolu et que les paquets reçoivent une réponse, cela permet de vérifier à la fois :
+
+Connectivité IP
+       +
+Résolution DNS
+
+La configuration DNS du routeur peut être consultée avec :
+
+/ip dns print
+
+Capture d'écran à intégrer :
+
+![Test DNS depuis le MikroTik](../screenshots/configuration/wan-dns-test.png)
+
+— Vérification de la résolution DNS depuis le MikroTik.
+
+---
+
+## 3.8 Résultat de la configuration
+
+À ce stade, le MikroTik dispose d'une connectivité WAN fonctionnelle sur "ether1".
+
+L'architecture obtenue est la suivante :
+
+                         INTERNET
+                            │
+                            │
+                     VMware NAT
+                            │
+                            ▼
+                       ether1
+                     ┌─────────┐
+                     │ MikroTik│
+                     └─────────┘
+                       ▲     ▲
+                       │     │
+                  ether2     ether3
+                 Management   LAN /
+                              HotSpot
+                       │
+                 VMnet1 Host-Only
+                 192.168.162.0/24
+
+Le réseau WAN est ainsi séparé du réseau de management. L'interface "ether1" sert à la communication vers l'extérieur, tandis que "ether2" reste dédiée à l'administration du routeur depuis le PC hôte.
+
+Cette connectivité WAN constitue la base nécessaire pour la configuration du réseau interne et du service HotSpot dans les étapes suivantes.
