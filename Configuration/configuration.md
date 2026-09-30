@@ -411,3 +411,173 @@ L'architecture obtenue est la suivante :
 Le réseau WAN est ainsi séparé du réseau de management. L'interface "ether1" sert à la communication vers l'extérieur, tandis que "ether2" reste dédiée à l'administration du routeur depuis le PC hôte.
 
 Cette connectivité WAN constitue la base nécessaire pour la configuration du réseau interne et du service HotSpot dans les étapes suivantes.
+
+
+## 4. Configuration du réseau LAN
+
+## 4.1 Objectif
+
+L'interface "ether3" du MikroTik est utilisée pour connecter le réseau local destiné aux équipements clients du laboratoire.
+
+Ce réseau constitue le réseau interne sur lequel le service HotSpot sera ensuite configuré.
+
+Il est volontairement séparé :
+
+- du réseau WAN porté par "ether1" ;
+- du réseau de management porté par "ether2".
+
+L'architecture devient donc :
+
+                         INTERNET
+                            │
+                            │
+                       VMware NAT
+                            │
+                         ether1
+                            │
+                    ┌──────────────┐
+                    │    MikroTik  │
+                    └──────────────┘
+                            │
+                         ether3
+                            │
+                       Réseau LAN
+                            │
+                     Clients du lab
+
+---
+
+## 4.2 Plan d'adressage du réseau LAN
+
+Le réseau LAN utilisé pour les clients est basé sur un réseau privé IPv4.
+
+Le MikroTik joue le rôle de passerelle pour ce réseau.
+
+Le principe retenu est :
+
+Réseau LAN       : 192.168.10.0/24
+Passerelle       : 192.168.10.1
+Interface        : ether3
+
+L'adresse "192.168.10.1" représente l'interface du MikroTik sur le réseau LAN.
+
+Elle sera également utilisée comme passerelle par défaut pour les clients connectés à ce réseau.
+
+---
+
+## 4.3 Configuration de l'adresse IP sur "ether3"
+
+L'adresse IP est attribuée à l'interface "ether3" avec la commande :
+
+/ip address add address=192.168.10.1/24 interface=ether3
+
+Cette configuration permet au MikroTik de participer au réseau :
+
+192.168.10.0/24
+
+avec l'adresse :
+
+192.168.10.1
+
+L'interface "ether3" devient ainsi le point de sortie des équipements présents sur le réseau LAN.
+
+Capture d'écran à intégrer :
+
+![Adresse IP du réseau LAN](../screenshots/configuration/lan-ip.png)
+
+Figure 9 — Adresse IP configurée sur l'interface LAN "ether3".
+
+---
+
+## 4.4 Vérification de l'adresse IP
+
+La configuration peut être vérifiée avec :
+
+/ip address print
+
+L'entrée correspondant à "ether3" doit apparaître avec :
+
+192.168.10.1/24
+
+Cette vérification permet de confirmer que l'interface LAN possède bien l'adresse prévue dans le plan d'adressage.
+
+Capture d'écran à intégrer :
+
+![Vérification de l'adresse LAN](../screenshots/configuration/lan-ip-verification.png)
+
+Figure 10 — Vérification de l'adresse IP configurée sur "ether3".
+
+---
+
+## 4.5 Test de connectivité du réseau LAN
+
+Une fois l'adresse IP configurée sur "ether3", la connectivité peut être vérifiée depuis un équipement connecté à cette interface.
+
+Le client doit appartenir au même réseau :
+
+192.168.10.0/24
+
+et utiliser le MikroTik comme passerelle :
+
+192.168.10.1
+
+Un test de connectivité vers la passerelle peut alors être effectué :
+
+ping 192.168.10.1
+
+Une réponse confirme que la communication entre le client et l'interface LAN du MikroTik est fonctionnelle.
+
+Capture d'écran à intégrer :
+
+![Test de connectivité du réseau LAN](../screenshots/configuration/lan-ping.png)
+
+Figure 11 — Test de connectivité entre un client LAN et le MikroTik.
+
+---
+
+## 4.6 Rôle du réseau LAN avant la configuration du HotSpot
+
+À ce stade, "ether3" fournit uniquement la connectivité IP de base du réseau LAN.
+
+Le MikroTik possède donc trois réseaux distincts :
+
+Fonction| Interface| Réseau
+WAN| "ether1"| Réseau NAT VMware
+Management| "ether2"| "192.168.162.0/24"
+LAN| "ether3"| "192.168.10.0/24"
+
+Le réseau LAN est celui qui accueillera les clients du HotSpot dans l'étape suivante.
+
+Il est important de distinguer le réseau LAN du service HotSpot : le réseau IP peut fonctionner avant même que l'authentification HotSpot soit activée.
+
+---
+
+## 4.7 Résultat de la configuration
+
+Après cette étape, l'architecture réseau du MikroTik est la suivante :
+
+                              INTERNET
+                                  │
+                                  │
+                             VMware NAT
+                                  │
+                               ether1
+                                  │
+                         ┌────────────────┐
+                         │    MikroTik    │
+                         └────────────────┘
+                            │          │
+                            │          │
+                         ether2       ether3
+                            │          │
+                            │          │
+                       Management      LAN
+                            │          │
+                    192.168.162.0/24   192.168.10.0/24
+                            │          │
+                         PC hôte     Clients
+                                      │
+                                  HotSpot
+                                  (étape suivante)
+
+Le réseau LAN est maintenant prêt à accueillir la configuration du service HotSpot.
