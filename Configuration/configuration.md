@@ -455,8 +455,8 @@ Le MikroTik joue le rôle de passerelle pour ce réseau.
 
 Le principe retenu est :
 
-Réseau LAN       : 192.168.10.0/24
-Passerelle       : 192.168.10.1
+Réseau LAN       : 10.10.30.0/24
+Passerelle       : 10.10.30.1
 Interface        : ether3
 
 L'adresse "192.168.10.1" représente l'interface du MikroTik sur le réseau LAN.
@@ -469,15 +469,15 @@ Elle sera également utilisée comme passerelle par défaut pour les clients con
 
 L'adresse IP est attribuée à l'interface "ether3" avec la commande :
 
-/ip address add address=192.168.10.1/24 interface=ether3
+/ip address add address=10.10.30.0/24 interface=ether3
 
 Cette configuration permet au MikroTik de participer au réseau :
 
-192.168.10.0/24
+10.10.30.0/24
 
 avec l'adresse :
 
-192.168.10.1
+10.10.30.1
 
 L'interface "ether3" devient ainsi le point de sortie des équipements présents sur le réseau LAN.
 
@@ -485,7 +485,7 @@ Capture d'écran à intégrer :
 
 ![Adresse IP du réseau LAN](../screenshots/configuration/lan-ip.png)
 
-Figure 9 — Adresse IP configurée sur l'interface LAN "ether3".
+ — Adresse IP configurée sur l'interface LAN "ether3".
 
 ---
 
@@ -497,7 +497,7 @@ La configuration peut être vérifiée avec :
 
 L'entrée correspondant à "ether3" doit apparaître avec :
 
-192.168.10.1/24
+10.10.30.0/24
 
 Cette vérification permet de confirmer que l'interface LAN possède bien l'adresse prévue dans le plan d'adressage.
 
@@ -505,7 +505,7 @@ Capture d'écran à intégrer :
 
 ![Vérification de l'adresse LAN](../screenshots/configuration/lan-ip-verification.png)
 
-Figure 10 — Vérification de l'adresse IP configurée sur "ether3".
+— Vérification de l'adresse IP configurée sur "ether3".
 
 ---
 
@@ -515,15 +515,15 @@ Une fois l'adresse IP configurée sur "ether3", la connectivité peut être vér
 
 Le client doit appartenir au même réseau :
 
-192.168.10.0/24
+10.10.30.0/24
 
 et utiliser le MikroTik comme passerelle :
 
-192.168.10.1
+10.10.30.1
 
 Un test de connectivité vers la passerelle peut alors être effectué :
 
-ping 192.168.10.1
+ping 10.10.30.1
 
 Une réponse confirme que la communication entre le client et l'interface LAN du MikroTik est fonctionnelle.
 
@@ -531,7 +531,7 @@ Capture d'écran à intégrer :
 
 ![Test de connectivité du réseau LAN](../screenshots/configuration/lan-ping.png)
 
-Figure 11 — Test de connectivité entre un client LAN et le MikroTik.
+ — Test de connectivité entre un client LAN et le MikroTik.
 
 ---
 
@@ -544,7 +544,7 @@ Le MikroTik possède donc trois réseaux distincts :
 Fonction| Interface| Réseau
 WAN| "ether1"| Réseau NAT VMware
 Management| "ether2"| "192.168.162.0/24"
-LAN| "ether3"| "192.168.10.0/24"
+LAN| "ether3"| "10.10.30.0/24"
 
 Le réseau LAN est celui qui accueillera les clients du HotSpot dans l'étape suivante.
 
@@ -573,7 +573,7 @@ Après cette étape, l'architecture réseau du MikroTik est la suivante :
                             │          │
                        Management      LAN
                             │          │
-                    192.168.162.0/24   192.168.10.0/24
+                    192.168.162.0/24   10.10.30.0/24
                             │          │
                          PC hôte     Clients
                                       │
@@ -581,3 +581,200 @@ Après cette étape, l'architecture réseau du MikroTik est la suivante :
                                   (étape suivante)
 
 Le réseau LAN est maintenant prêt à accueillir la configuration du service HotSpot.
+
+## 5. Configuration du DHCP sur le réseau LAN
+
+## 5.1 Objectif
+
+Le réseau LAN connecté à "ether3" doit pouvoir attribuer automatiquement une configuration IP aux équipements qui s'y connectent.
+
+Pour cela, un serveur DHCP est configuré directement sur le MikroTik.
+
+Le DHCP permet notamment de fournir automatiquement aux clients :
+
+- une adresse IP ;
+- le masque du réseau ;
+- la passerelle par défaut ;
+- les paramètres nécessaires à leur communication sur le réseau.
+
+Dans le laboratoire, le réseau LAN utilisé est :
+
+Réseau       : 10.10.30.0/24
+Passerelle   : 10.10.30.1
+Interface    : ether3
+
+---
+
+## 5.2 Création du pool d'adresses
+
+Le pool DHCP définit la plage d'adresses que le MikroTik pourra attribuer automatiquement aux clients.
+
+Le pool est créé avec :
+
+/ip pool add name=pool-lan ranges=10.10.30.2-10.10.30.254
+
+La plage utilisée est donc :
+
+10.10.30.2 - 10.10.30.254
+
+L'adresse "10.10.30.1" n'est pas incluse dans le pool puisqu'elle est déjà utilisée par le MikroTik comme passerelle du réseau LAN.
+
+Le principe est donc :
+
+10.10.30.0      → Adresse réseau
+10.10.30.1       → MikroTik / passerelle
+10.10.30.254  → Adresses disponibles pour les clients
+10.10.30.255    → Adresse de broadcast
+
+Capture d'écran à intégrer :
+
+![Pool DHCP du réseau LAN](../screenshots/configuration/lan-dhcp-pool.png)
+
+— Plage d'adresses définie pour le DHCP du réseau LAN.
+
+---
+
+## 5.3 Configuration du réseau DHCP
+
+Le réseau distribué par le serveur DHCP est ensuite défini avec :
+
+/ip dhcp-server network add address=10.10.30.0/24 gateway=10.10.30.1
+
+Le MikroTik indique ainsi aux clients que leur passerelle par défaut est :
+
+10.10.30.1
+
+Cette passerelle correspond directement à l'adresse IP configurée précédemment sur "ether3".
+
+---
+
+## 5.4 Création du serveur DHCP
+
+Le serveur DHCP est associé à l'interface "ether3" :
+
+/ip dhcp-server add name=dhcp-lan interface=ether3 address-pool=pool-lan disabled=no
+
+Le serveur DHCP écoute donc les requêtes des clients connectés au réseau LAN.
+
+Le fonctionnement est alors :
+
+Client
+   │
+   │ DHCP
+   ▼
+ether3
+MikroTik
+   │
+   ├── Adresse IP :
+   │   10.10.30.2 - 10.10.30.254
+   │
+   └── Passerelle :
+       10.10.30.1
+
+---
+
+## 5.5 Vérification du serveur DHCP
+
+La configuration du serveur DHCP peut être vérifiée avec :
+
+/ip dhcp-server print
+
+Le serveur "dhcp-lan" doit apparaître comme actif sur l'interface "ether3".
+
+La configuration du pool peut être vérifiée avec :
+
+/ip pool print
+
+Une capture peut être ajoutée pour documenter ces paramètres.
+
+Capture d'écran à intégrer :
+
+![Serveur DHCP du LAN](../screenshots/configuration/lan-dhcp-server.png)
+
+ — Serveur DHCP configuré sur l'interface "ether3".
+
+---
+
+## 5.6 Vérification des baux DHCP
+
+Lorsqu'un client demande une adresse IP, le MikroTik crée un bail DHCP.
+
+Les baux actifs peuvent être consultés avec :
+
+/ip dhcp-server lease print
+
+Cette commande permet de vérifier qu'un client connecté au réseau LAN a bien reçu une adresse appartenant à la plage configurée.
+
+Par exemple :
+
+Adresse IP       : 10.10.30.x
+Réseau           : 10.10.30.0/24
+Passerelle       : 10.10.30.1
+
+Capture d'écran à intégrer :
+
+![Baux DHCP du réseau LAN](../screenshots/configuration/lan-dhcp-leases.png)
+
+— Vérification des baux DHCP attribués aux clients.
+
+---
+
+## 5.7 Vérification depuis un client
+
+Depuis un équipement connecté à "ether3", la configuration réseau obtenue automatiquement peut être vérifiée.
+
+Sous Windows :
+
+ipconfig
+
+Le client doit recevoir une adresse appartenant au réseau :
+
+10.10.30.0/24
+
+avec comme passerelle :
+
+10.10.30.1
+
+Un test vers la passerelle peut ensuite être effectué :
+
+ping 10.10.30.1
+
+Une réponse confirme que le client communique correctement avec le MikroTik.
+
+Capture d'écran à intégrer :
+
+![Configuration IP du client LAN](../screenshots/configuration/lan-client-ip.png)
+
+— Configuration IP obtenue automatiquement par un client LAN.
+
+---
+
+## 5.8 Résultat de la configuration
+
+À ce stade, le réseau LAN dispose d'un service DHCP fonctionnel.
+
+L'architecture est maintenant :
+
+                         INTERNET
+                            │
+                        VMware NAT
+                            │
+                         ether1
+                            │
+                    ┌──────────────┐
+                    │   MikroTik   │
+                    └──────────────┘
+                       │          │
+                    ether2       ether3
+                       │          │
+                  Management      LAN
+                       │          │
+              192.168.162.0/24   10.10.30.0/24
+                                  │
+                             DHCP actif
+                                  │
+                               Clients
+
+Les clients du réseau LAN peuvent désormais obtenir automatiquement leur configuration IP auprès du MikroTik.
+
+Le réseau est ainsi prêt pour l'étape suivante : la mise en place du HotSpot MikroTik et de son mécanisme d'authentification.
