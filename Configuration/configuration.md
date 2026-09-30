@@ -34,7 +34,7 @@ Le réseau de management n'est donc pas destiné à fournir l'accès Internet au
 
 ---
 
-2.2 Architecture du réseau de management
+## 2.2 Architecture du réseau de management
 
 Le réseau de management est organisé de la manière suivante :
 
