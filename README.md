@@ -1,12 +1,12 @@
 MikroTik Network Lab
 
-"MikroTik" (https://img.shields.io/badge/MikroTik-RouterOS-red?style=flat-square)
-"VMware" (https://img.shields.io/badge/VMware-Workstation-blue?style=flat-square)
-"Networking" (https://img.shields.io/badge/Focus-Networking-informational?style=flat-square)
-"DHCP" (https://img.shields.io/badge/Protocol-DHCP-success?style=flat-square)
-"HotSpot" (https://img.shields.io/badge/Feature-HotSpot-orange?style=flat-square)
-"Firewall" (https://img.shields.io/badge/Security-Firewall-critical?style=flat-square)
-"Status" (https://img.shields.io/badge/Status-In%20Progress-yellow?style=flat-square)
+""MikroTik" (https://img.shields.io/badge/MikroTik-RouterOS-red?logo=mikrotik&logoColor=white)" (https://mikrotik.com/)
+""VMware" (https://img.shields.io/badge/Virtualization-VMware%20Workstation-blue?logo=vmware&logoColor=white)" (https://www.vmware.com/)
+""Networking" (https://img.shields.io/badge/Domain-Networking-0078D4)" (https://github.com/Rodrigue-BALOGOU)
+""DHCP" (https://img.shields.io/badge/Service-DHCP-orange)" (https://github.com/Rodrigue-BALOGOU)
+""HotSpot" (https://img.shields.io/badge/Service-HotSpot-purple)" (https://github.com/Rodrigue-BALOGOU)
+""Firewall" (https://img.shields.io/badge/Security-Firewall-critical)" (https://github.com/Rodrigue-BALOGOU)
+""Status" (https://img.shields.io/badge/Status-Completed-success)" (https://github.com/Rodrigue-BALOGOU)
 
 A practical networking laboratory built with MikroTik RouterOS and VMware Workstation to develop hands-on skills in network administration, configuration and security.
 
