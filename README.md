@@ -1,12 +1,14 @@
 MikroTik Network Lab
 
-""MikroTik" (https://img.shields.io/badge/MikroTik-RouterOS-red?logo=mikrotik&logoColor=white)" (https://mikrotik.com/)
-""VMware" (https://img.shields.io/badge/Virtualization-VMware%20Workstation-blue?logo=vmware&logoColor=white)" (https://www.vmware.com/)
-""Networking" (https://img.shields.io/badge/Domain-Networking-0078D4)" (https://github.com/Rodrigue-BALOGOU)
-""DHCP" (https://img.shields.io/badge/Service-DHCP-orange)" (https://github.com/Rodrigue-BALOGOU)
-""HotSpot" (https://img.shields.io/badge/Service-HotSpot-purple)" (https://github.com/Rodrigue-BALOGOU)
-""Firewall" (https://img.shields.io/badge/Security-Firewall-critical)" (https://github.com/Rodrigue-BALOGOU)
-""Status" (https://img.shields.io/badge/Status-Completed-success)" (https://github.com/Rodrigue-BALOGOU)
+"MikroTik" (https://img.shields.io/badge/MikroTik-RouterOS-red?logo=mikrotik&logoColor=white)
+"VMware" (https://img.shields.io/badge/Virtualization-VMware-blue?logo=vmware&logoColor=white)
+"Networking" (https://img.shields.io/badge/Domain-Networking-blue)
+"DHCP" (https://img.shields.io/badge/Service-DHCP-orange)
+"HotSpot" (https://img.shields.io/badge/Service-HotSpot-purple)
+"Firewall" (https://img.shields.io/badge/Security-Firewall-red)
+"Status" (https://img.shields.io/badge/Status-Completed-success)
+
+Practical network laboratory focused on configuring and administering MikroTik RouterOS in a virtualized VMware environment.
 
 A practical networking laboratory built with MikroTik RouterOS and VMware Workstation to develop hands-on skills in network administration, configuration and security.
 
