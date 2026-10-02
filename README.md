@@ -1,12 +1,17 @@
 MikroTik Network Lab
 
-"MikroTik" (https://img.shields.io/badge/MikroTik-RouterOS-red?logo=mikrotik&logoColor=white)
-"VMware" (https://img.shields.io/badge/Virtualization-VMware-blue?logo=vmware&logoColor=white)
+"Project" (https://img.shields.io/badge/Project-MikroTik%20Network%20Lab-blue)
+"Environment" (https://img.shields.io/badge/Environment-Virtualized%20Network%20Lab-darkgreen)
+"Router" (https://img.shields.io/badge/Router-MikroTik%20RouterOS-red)
+"Virtualization" (https://img.shields.io/badge/Virtualization-VMware-blue)
 "Networking" (https://img.shields.io/badge/Domain-Networking-blue)
 "DHCP" (https://img.shields.io/badge/Service-DHCP-orange)
 "HotSpot" (https://img.shields.io/badge/Service-HotSpot-purple)
 "Firewall" (https://img.shields.io/badge/Security-Firewall-red)
+"NAT" (https://img.shields.io/badge/Network-NAT-yellow)
 "Status" (https://img.shields.io/badge/Status-Completed-success)
+
+Practical network laboratory focused on configuring and administering MikroTik RouterOS in a virtualized VMware environment.
 
 Practical network laboratory focused on configuring and administering MikroTik RouterOS in a virtualized VMware environment.
 
