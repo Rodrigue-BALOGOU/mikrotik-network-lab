@@ -79,12 +79,12 @@ Cette adresse est ensuite utilisée pour les opérations d'administration et les
 
 Capture d'écran à intégrer :
 
-![Adresse IP du réseau de management](../screenshots/configuration/management-ip.png)
+![Adresse IP du réseau de management](../screenshots/management-ip.png)
 
  Adresse IP configurée sur l'interface de management.
 
 ---
-
+C
 ## 2.4 Vérification de l'adresse IP
 
 La configuration des adresses IP du MikroTik peut être vérifiée avec :
@@ -99,7 +99,7 @@ Cette vérification permet de confirmer que l'interface de management possède b
 
 Capture d'écran à intégrer :
 
-![Vérification de l'adresse de management](../screenshots/configuration/management-ip-verification.png)
+![Vérification de l'adresse de management](../screenshots/management-ip-verification.png)
 
 — Vérification de l'adresse IP du réseau de management.
 
@@ -119,7 +119,7 @@ Cette vérification constitue un premier contrôle avant l'utilisation des outil
 
 Capture d'écran à intégrer :
 
-![Test de connectivité entre le PC hôte et le MikroTik](../screenshots/configuration/management-ping.png)
+![Test de connectivité entre le PC hôte et le MikroTik](../screenshots/management-ping.png)
 
 — Test de connectivité entre le PC hôte et le MikroTik.
 
@@ -204,9 +204,12 @@ Cette commande permet notamment de vérifier qu'un équipement connecté au rés
 
 Capture d'écran à intégrer :
 
-![Serveur DHCP du réseau de management](../screenshots/configuration/management-dhcp.png)
+![Serveur DHCP du réseau de management](../screenshots/management-dhcp.png)
 
 — Configuration du serveur DHCP sur le réseau de management.
+
+
+![Pool DHCP du réseau de management](../screenshots/dhcp-pool-management.png)
 
 ---
 
@@ -309,7 +312,7 @@ L'adresse affichée sur "ether1" correspond alors à l'adresse fournie dynamique
 
 Capture d'écran à intégrer :
 
-![Adresse IP WAN du MikroTik](../screenshots/configuration/wan-ip.png)
+![Adresse IP WAN du MikroTik](../screenshots/wan-ip.png)
 
  — Adresse IP obtenue dynamiquement sur l'interface WAN "ether1".
 
@@ -331,7 +334,7 @@ Cette route indique au MikroTik quelle passerelle utiliser lorsqu'une destinatio
 
 Capture d'écran à intégrer :
 
-![Route par défaut du MikroTik](../screenshots/configuration/wan-route.png)
+![Route par défaut du MikroTik](../screenshots/wan-route.png)
 
 — Vérification de la route par défaut vers le réseau WAN.
 
@@ -351,7 +354,7 @@ Le test par adresse IP est utilisé ici afin de vérifier la connectivité rése
 
 Capture d'écran à intégrer :
 
-![Test de connectivité WAN](../screenshots/configuration/wan-ping.png)
+![Test de connectivité WAN](../screenshots/wan-ping.png)
 
 — Test de connectivité du MikroTik vers l'extérieur.
 
@@ -377,7 +380,7 @@ La configuration DNS du routeur peut être consultée avec :
 
 Capture d'écran à intégrer :
 
-![Test DNS depuis le MikroTik](../screenshots/configuration/wan-dns-test.png)
+![Test DNS depuis le MikroTik](../screenshots/wan-dns-test.png)
 
 — Vérification de la résolution DNS depuis le MikroTik.
 
@@ -455,8 +458,8 @@ Le MikroTik joue le rôle de passerelle pour ce réseau.
 
 Le principe retenu est :
 
-Réseau LAN       : 10.10.30.0/24
-Passerelle       : 10.10.30.1
+Réseau LAN       : 10.10.20.0/24
+Passerelle       : 10.10.20.1
 Interface        : ether3
 
 L'adresse "192.168.10.1" représente l'interface du MikroTik sur le réseau LAN.
@@ -469,21 +472,21 @@ Elle sera également utilisée comme passerelle par défaut pour les clients con
 
 L'adresse IP est attribuée à l'interface "ether3" avec la commande :
 
-/ip address add address=10.10.30.0/24 interface=ether3
+/ip address add address=10.10.20.0/24 interface=ether3
 
 Cette configuration permet au MikroTik de participer au réseau :
 
-10.10.30.0/24
+10.10.20.0/24
 
 avec l'adresse :
 
-10.10.30.1
+10.10.20.1
 
 L'interface "ether3" devient ainsi le point de sortie des équipements présents sur le réseau LAN.
 
 Capture d'écran à intégrer :
 
-![Adresse IP du réseau LAN](../screenshots/configuration/lan-ip.png)
+![Adresse IP du réseau LAN](../screenshots/lan-ip.png)
 
  — Adresse IP configurée sur l'interface LAN "ether3".
 
@@ -497,13 +500,13 @@ La configuration peut être vérifiée avec :
 
 L'entrée correspondant à "ether3" doit apparaître avec :
 
-10.10.30.0/24
+10.10.20.0/24
 
 Cette vérification permet de confirmer que l'interface LAN possède bien l'adresse prévue dans le plan d'adressage.
 
 Capture d'écran à intégrer :
 
-![Vérification de l'adresse LAN](../screenshots/configuration/lan-ip-verification.png)
+![Vérification de l'adresse LAN](../screenshots/lan-ip-verification.png)
 
 — Vérification de l'adresse IP configurée sur "ether3".
 
@@ -515,21 +518,21 @@ Une fois l'adresse IP configurée sur "ether3", la connectivité peut être vér
 
 Le client doit appartenir au même réseau :
 
-10.10.30.0/24
+10.10.20.0/24
 
 et utiliser le MikroTik comme passerelle :
 
-10.10.30.1
+10.10.20.1
 
 Un test de connectivité vers la passerelle peut alors être effectué :
 
-ping 10.10.30.1
+ping 10.10.20.1
 
 Une réponse confirme que la communication entre le client et l'interface LAN du MikroTik est fonctionnelle.
 
 Capture d'écran à intégrer :
 
-![Test de connectivité du réseau LAN](../screenshots/configuration/lan-ping.png)
+![Test de connectivité du réseau LAN](../screenshots/lan-ping.png)
 
  — Test de connectivité entre un client LAN et le MikroTik.
 
@@ -544,7 +547,7 @@ Le MikroTik possède donc trois réseaux distincts :
 Fonction| Interface| Réseau
 WAN| "ether1"| Réseau NAT VMware
 Management| "ether2"| "192.168.162.0/24"
-LAN| "ether3"| "10.10.30.0/24"
+LAN| "ether3"| "10.10.20.0/24"
 
 Le réseau LAN est celui qui accueillera les clients du HotSpot dans l'étape suivante.
 
@@ -573,7 +576,7 @@ Après cette étape, l'architecture réseau du MikroTik est la suivante :
                             │          │
                        Management      LAN
                             │          │
-                    192.168.162.0/24   10.10.30.0/24
+                    192.168.162.0/24   10.10.20.0/24
                             │          │
                          PC hôte     Clients
                                       │
@@ -599,8 +602,8 @@ Le DHCP permet notamment de fournir automatiquement aux clients :
 
 Dans le laboratoire, le réseau LAN utilisé est :
 
-Réseau       : 10.10.30.0/24
-Passerelle   : 10.10.30.1
+Réseau       : 10.10.20.0/24
+Passerelle   : 10.10.20.1
 Interface    : ether3
 
 ---
@@ -611,24 +614,24 @@ Le pool DHCP définit la plage d'adresses que le MikroTik pourra attribuer autom
 
 Le pool est créé avec :
 
-/ip pool add name=pool-lan ranges=10.10.30.2-10.10.30.254
+/ip pool add name=pool-lan ranges=10.10.20.2-10.10.20.253
 
 La plage utilisée est donc :
 
-10.10.30.2 - 10.10.30.254
+10.10.20.2 - 10.10.20.253
 
-L'adresse "10.10.30.1" n'est pas incluse dans le pool puisqu'elle est déjà utilisée par le MikroTik comme passerelle du réseau LAN.
+L'adresse "10.10.20.1" n'est pas incluse dans le pool puisqu'elle est déjà utilisée par le MikroTik comme passerelle du réseau LAN.
 
 Le principe est donc :
 
-10.10.30.0      → Adresse réseau
-10.10.30.1       → MikroTik / passerelle
-10.10.30.254  → Adresses disponibles pour les clients
-10.10.30.255    → Adresse de broadcast
+10.10.20.0      → Adresse réseau
+10.10.20.1       → MikroTik / passerelle
+10.10.20.253  → Adresses disponibles pour les clients
+10.10.20.255    → Adresse de broadcast
 
 Capture d'écran à intégrer :
 
-![Pool DHCP du réseau LAN](../screenshots/configuration/lan-dhcp-pool.png)
+![Pool DHCP du réseau LAN](../screenshots/lan-dhcp-pool.png)
 
 — Plage d'adresses définie pour le DHCP du réseau LAN.
 
@@ -638,11 +641,11 @@ Capture d'écran à intégrer :
 
 Le réseau distribué par le serveur DHCP est ensuite défini avec :
 
-/ip dhcp-server network add address=10.10.30.0/24 gateway=10.10.30.1
+/ip dhcp-server network add address=10.10.20.0/24 gateway=10.10.20.1
 
 Le MikroTik indique ainsi aux clients que leur passerelle par défaut est :
 
-10.10.30.1
+10.10.20.1
 
 Cette passerelle correspond directement à l'adresse IP configurée précédemment sur "ether3".
 
@@ -666,10 +669,10 @@ ether3
 MikroTik
    │
    ├── Adresse IP :
-   │   10.10.30.2 - 10.10.30.254
+   │   10.10.20.2 - 10.10.20.253
    │
    └── Passerelle :
-       10.10.30.1
+       10.10.20.1
 
 ---
 
@@ -689,7 +692,7 @@ Une capture peut être ajoutée pour documenter ces paramètres.
 
 Capture d'écran à intégrer :
 
-![Serveur DHCP du LAN](../screenshots/configuration/lan-dhcp-server.png)
+![Serveur DHCP du LAN](../screenshots/lan-dhcp-server.png)
 
  — Serveur DHCP configuré sur l'interface "ether3".
 
@@ -707,13 +710,13 @@ Cette commande permet de vérifier qu'un client connecté au réseau LAN a bien 
 
 Par exemple :
 
-Adresse IP       : 10.10.30.x
-Réseau           : 10.10.30.0/24
-Passerelle       : 10.10.30.1
+Adresse IP       : 10.10.20.x
+Réseau           : 10.10.20.0/24
+Passerelle       : 10.10.20.1
 
 Capture d'écran à intégrer :
 
-![Baux DHCP du réseau LAN](../screenshots/configuration/lan-dhcp-leases.png)
+![Baux DHCP du réseau LAN](../screenshots/lan-dhcp-leases.png)
 
 — Vérification des baux DHCP attribués aux clients.
 
@@ -729,21 +732,21 @@ ipconfig
 
 Le client doit recevoir une adresse appartenant au réseau :
 
-10.10.30.0/24
+10.10.20.0/24
 
 avec comme passerelle :
 
-10.10.30.1
+10.10.20.1
 
 Un test vers la passerelle peut ensuite être effectué :
 
-ping 10.10.30.1
+ping 10.10.20.1
 
 Une réponse confirme que le client communique correctement avec le MikroTik.
 
 Capture d'écran à intégrer :
 
-![Configuration IP du client LAN](../screenshots/configuration/lan-client-ip.png)
+![Configuration IP du client LAN](../screenshots/lan-ping.png)
 
 — Configuration IP obtenue automatiquement par un client LAN.
 
@@ -769,7 +772,7 @@ L'architecture est maintenant :
                        │          │
                   Management      LAN
                        │          │
-              192.168.162.0/24   10.10.30.0/24
+              192.168.162.0/24   10.10.20.0/24
                                   │
                              DHCP actif
                                   │
@@ -778,3 +781,349 @@ L'architecture est maintenant :
 Les clients du réseau LAN peuvent désormais obtenir automatiquement leur configuration IP auprès du MikroTik.
 
 Le réseau est ainsi prêt pour l'étape suivante : la mise en place du HotSpot MikroTik et de son mécanisme d'authentification.
+
+
+## 6. Configuration du HotSpot MikroTik
+
+## 6.1 Objectif
+
+Le service HotSpot est mis en place sur le réseau LAN connecté à "ether3".
+
+Son objectif est de contrôler l'accès des clients au réseau en leur imposant une authentification avant de leur permettre d'accéder aux ressources réseau autorisées.
+
+Contrairement au DHCP configuré précédemment, qui fournit uniquement une configuration IP aux clients, le HotSpot ajoute une couche de contrôle d'accès et d'authentification.
+
+Le fonctionnement général est le suivant :
+
+Client
+   │
+   │ Connexion au réseau LAN
+   ▼
+ether3
+MikroTik
+   │
+   │ DHCP
+   ▼
+Adresse IP
+   │
+   │ Tentative d'accès
+   ▼
+Portail HotSpot
+   │
+   │ Authentification
+   ▼
+Accès autorisé
+
+---
+
+## 6.2 Interface utilisée par le HotSpot
+
+Le HotSpot est installé sur l'interface "ether3".
+
+Cette interface correspond au réseau LAN :
+
+Interface    : ether3
+Réseau       : 10.10.20.0/24
+Passerelle   : 10.10.20.1
+
+Le réseau de management "ether2" n'est pas concerné par le HotSpot.
+
+Cette séparation permet de conserver l'accès d'administration au MikroTik indépendamment de l'authentification imposée aux clients du HotSpot.
+
+---
+
+## 6.3 Lancement de l'assistant HotSpot
+
+La configuration peut être réalisée à l'aide de l'assistant intégré à RouterOS :
+
+/ip hotspot setup
+
+L'assistant demande successivement plusieurs paramètres.
+
+Pour le laboratoire, l'interface sélectionnée est :
+
+ether3
+
+Le réseau proposé correspond au réseau LAN :
+
+10.10.20.0/24
+
+L'adresse de la passerelle du HotSpot est :
+
+10.10.20.1
+
+L'assistant permet ensuite de définir les paramètres nécessaires au fonctionnement du portail captif.
+
+---
+
+## 6.4 Sélection de l'interface
+
+Lors de l'exécution de :
+
+/ip hotspot setup
+
+l'interface "ether3" est sélectionnée comme interface HotSpot.
+
+Cette étape est importante car elle détermine sur quel réseau le mécanisme d'authentification sera appliqué.
+
+Le HotSpot ne doit donc pas être installé sur :
+
+ether1 → WAN
+ether2 → Management
+
+mais uniquement sur :
+
+ether3 → LAN / HotSpot
+
+Capture d'écran à intégrer :
+
+![Sélection de l'interface HotSpot](../screenshots/hotspot-interface.png)
+
+— Sélection de l'interface "ether3" lors de la configuration du HotSpot.
+
+---
+
+## 6.5 Configuration de l'adresse du HotSpot
+
+L'assistant utilise l'adresse de l'interface LAN comme passerelle du HotSpot :
+
+10.10.20.0/24
+
+Cette adresse constitue le point d'accès logique entre les clients et le MikroTik.
+
+Les clients connectés au réseau reçoivent donc une adresse dans le réseau :
+
+10.10.20.0/24
+
+avec :
+
+Passerelle : 10.10.20.1
+
+---
+
+6.6 Configuration du pool d'adresses
+
+Le HotSpot peut utiliser le pool d'adresses déjà défini pour le réseau LAN.
+
+Dans le laboratoire, la plage disponible pour les clients est :
+
+110.10.20.2 - 110.10.20.253
+
+Le MikroTik attribue ainsi une adresse IP aux clients avant leur authentification.
+
+Il est important de comprendre que l'obtention d'une adresse IP ne signifie pas encore que l'utilisateur est authentifié.
+
+Le DHCP fournit la connectivité IP de base, tandis que le HotSpot contrôle ensuite l'accès aux services réseau.
+
+---
+
+## 6.7 Configuration du certificat SSL
+
+Lors de la configuration du HotSpot, RouterOS demande également le certificat à utiliser pour les connexions sécurisées.
+
+Dans le cadre de ce laboratoire, la configuration est réalisée avec le certificat disponible dans RouterOS.
+
+Le certificat permet notamment au HotSpot de prendre en charge les connexions HTTPS lorsque cette fonctionnalité est utilisée.
+
+— Paramètre du certificat lors de la configuration du HotSpot.
+
+---
+
+## 6.8 Configuration du serveur SMTP
+
+L'assistant demande également l'adresse du serveur SMTP.
+
+Dans le cadre de ce laboratoire, ce paramètre n'est pas utilisé pour le fonctionnement principal du portail captif.
+
+La valeur peut donc être conservée selon la configuration retenue lors de l'assistant.
+
+---
+
+## 6.9 Configuration du serveur DNS
+
+Le HotSpot nécessite également un serveur DNS pour permettre aux clients de résoudre les noms de domaine.
+
+Le MikroTik peut utiliser les serveurs DNS configurés dans RouterOS.
+
+La configuration peut être consultée avec :
+
+/ip dns print
+
+Le paramètre "allow-remote-requests" doit être configuré correctement si le MikroTik doit répondre aux requêtes DNS des clients.
+
+La vérification peut être effectuée avec :
+
+/ip dns print
+
+Capture d'écran à intégrer :
+
+![Configuration DNS du MikroTik](../screenshots/hotspot-dns.png)
+
+— Vérification de la configuration DNS utilisée par le HotSpot.
+
+---
+
+## 6.10 Nom du domaine HotSpot
+
+L'assistant demande également un nom DNS pour le serveur HotSpot.
+
+Ce nom est utilisé dans le fonctionnement du portail captif.
+
+Le nom défini lors de la configuration est conservé dans la configuration RouterOS.
+
+Il peut être vérifié avec :
+
+/ip hotspot profile print
+
+Cette commande permet notamment de consulter le profil associé au HotSpot.
+
+---
+
+## .11 Création du premier utilisateur
+
+Après la configuration du HotSpot, un compte utilisateur peut être créé afin de tester l'authentification.
+
+La commande générale est :
+
+/ip hotspot user add name=<nom_utilisateur> password=<mot_de_passe>
+
+Le compte créé est ensuite utilisé depuis le portail captif.
+
+Pour consulter les utilisateurs configurés :
+
+/ip hotspot user print
+
+Capture d'écran à intégrer :
+
+![Utilisateur HotSpot](../screenshots/hotspot-user.png)
+
+ — Utilisateur configuré pour l'authentification HotSpot.
+
+---
+
+## 6.12 Vérification du service HotSpot
+
+La présence du serveur HotSpot peut être vérifiée avec :
+
+/ip hotspot print
+
+Le serveur doit être associé à :
+
+ether3
+
+Les profils HotSpot peuvent être consultés avec :
+
+/ip hotspot profile print
+
+Les utilisateurs peuvent être vérifiés avec :
+
+/ip hotspot user print
+
+Ces commandes permettent de contrôler les principaux éléments de la configuration.
+
+---
+
+## 6.13 Test depuis un client
+
+Un client est connecté au réseau LAN associé à "ether3".
+
+Après l'obtention de son adresse IP par DHCP, une tentative d'accès à une ressource Web doit provoquer la redirection vers le portail HotSpot lorsque le client n'est pas encore authentifié.
+
+Le scénario attendu est :
+
+Client
+   │
+   │ DHCP
+   ▼
+10.10.20.x
+   │
+   │ Requête Web
+   ▼
+MikroTik HotSpot
+   │
+   │ Client non authentifié
+   ▼
+Portail de connexion
+   │
+   │ Identifiant + mot de passe
+   ▼
+Authentification réussie
+   │
+   ▼
+Accès réseau autorisé
+
+Capture d'écran à intégrer :
+
+![Portail captif MikroTik](../screenshots/hotspot-login.png)
+
+— Portail d'authentification du HotSpot MikroTik.
+
+---
+
+## 6.14 Vérification d'un utilisateur connecté
+
+Une fois l'authentification effectuée, les utilisateurs actuellement connectés peuvent être consultés avec :
+
+/ip hotspot active print
+
+Cette commande permet notamment d'observer les sessions HotSpot actives.
+
+On peut y retrouver les informations associées au client connecté, notamment son adresse IP et son identifiant.
+
+Capture d'écran à intégrer :
+
+![Client HotSpot authentifié](../screenshots/hotspot-active.png)
+
+— Vérification d'une session HotSpot active.
+
+---
+
+## 6.15 Résultat de la configuration
+
+Après cette étape, le réseau "ether3" dispose désormais du service HotSpot.
+
+L'architecture fonctionnelle du laboratoire est la suivante :
+
+                              INTERNET
+                                  │
+                              VMware NAT
+                                  │
+                               ether1
+                                  │
+                         ┌────────────────┐
+                         │    MikroTik    │
+                         └────────────────┘
+                            │          │
+                         ether2       ether3
+                            │          │
+                       Management      LAN
+                            │          │
+                    192.168.162.0/24  10.10.20.0/24
+                                       │
+                                       │
+                                    DHCP
+                                       │
+                                       ▼
+                                    Client
+                                       │
+                                       ▼
+                                  HotSpot
+                                       │
+                                       ▼
+                              Portail captif
+                                       │
+                                       ▼
+                                Authentification
+                                       │
+                                       ▼
+                                  Accès réseau
+
+Le MikroTik joue ainsi plusieurs rôles dans le laboratoire :
+
+- "ether1" assure la connectivité WAN ;
+- "ether2" fournit le réseau de management ;
+- "ether3" porte le réseau LAN destiné aux clients ;
+- le DHCP fournit automatiquement la configuration IP aux clients ;
+- le HotSpot contrôle leur authentification avant l'accès au réseau.
+
+La prochaine étape consiste à tester le comportement du HotSpot côté client et à vérifier notamment la gestion des sessions et des utilisateurs.
