@@ -480,7 +480,7 @@ Cette vérification permet de confirmer que les deux interfaces physiques partic
 
 
 
-![Configuration du bridge LAN](../screenshots/lan-bridge.png)
+![Configuration du bridge LAN](../screenshots/bridge.png)
 
 Vérification du bridge LAN et de ses interfaces membres.
 
@@ -738,8 +738,6 @@ L'architecture est maintenant :
                                    │
                                 Clients
                                 
-                                
-![brigde lan](../screenshots/bridge.png)
 
 Les clients connectés à "ether3" ou "ether4" peuvent désormais obtenir automatiquement leur configuration IP auprès du MikroTik.
 
